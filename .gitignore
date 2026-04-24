@@ -1,0 +1,38 @@
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# System / personal folders — only track project files explicitly
+AppData/
+Documents/
+Downloads/
+Pictures/
+Videos/
+Music/
+OneDrive/
+Contacts/
+Favorites/
+Links/
+Searches/
+Saved Games/
+3D Objects/
+
+# Editor & IDE
+.vscode/
+.idea/
+*.suo
+*.user
+
+# Node
+node_modules/
+
+# Logs
+*.log
+
+# Env
+.env
+.env.local
+
+# Claude memory / config
+.claude/
