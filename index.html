@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -106,11 +106,41 @@
     }
     input[type="text"]:focus,
     input[type="date"]:focus,
-    input[type="email"]:focus {
+    input[type="email"]:focus,
+    input[type="number"]:focus,
+    select:focus {
       border-color: var(--green);
       box-shadow: 0 0 0 3px rgba(145, 124, 100, 0.15);
     }
     input.error { border-color: #e05353 !important; }
+
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px 13px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--text);
+      transition: border-color 0.15s, box-shadow 0.15s;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239e8e7e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 13px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+    .none-above-row {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
 
     /* ── Checkboxes grid ── */
     .conditions-grid {
@@ -298,6 +328,37 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ── Guest toggle ── */
+    .guest-toggle-row { margin-top: 4px; }
+    .guest-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--green);
+      user-select: none;
+      padding: 10px 12px;
+      border: 1.5px dashed var(--border);
+      border-radius: 7px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .guest-toggle:hover { background: var(--green-light); border-color: var(--green); }
+    .guest-toggle input[type="checkbox"] {
+      width: 16px; height: 16px;
+      accent-color: var(--green);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    #optionalFields {
+      transition: opacity 0.2s;
+    }
+    #optionalFields.hidden {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
     /* ── Responsive ── */
     @media (max-width: 480px) {
       .conditions-grid { grid-template-columns: 1fr; }
@@ -352,6 +413,107 @@
         <div class="field-error" id="emailError">Please enter a valid email address.</div>
       </div>
 
+      <div id="optionalFields">
+        <div class="form-row">
+          <label for="guestAge">Age</label>
+          <input type="number" id="guestAge" name="age" placeholder="Your age" min="1" max="120" />
+        </div>
+
+        <div class="form-row">
+          <label for="guestCountry">Country</label>
+          <input type="text" id="guestCountry" name="country" placeholder="Type to search country…" autocomplete="off" list="countryList" />
+          <datalist id="countryList">
+            <option>Afghanistan</option><option>Albania</option><option>Algeria</option>
+            <option>Andorra</option><option>Angola</option><option>Antigua and Barbuda</option>
+            <option>Argentina</option><option>Armenia</option><option>Australia</option>
+            <option>Austria</option><option>Azerbaijan</option><option>Bahamas</option>
+            <option>Bahrain</option><option>Bangladesh</option><option>Barbados</option>
+            <option>Belarus</option><option>Belgium</option><option>Belize</option>
+            <option>Benin</option><option>Bhutan</option><option>Bolivia</option>
+            <option>Bosnia and Herzegovina</option><option>Botswana</option><option>Brazil</option>
+            <option>Brunei</option><option>Bulgaria</option><option>Burkina Faso</option>
+            <option>Burundi</option><option>Cabo Verde</option><option>Cambodia</option>
+            <option>Cameroon</option><option>Canada</option><option>Central African Republic</option>
+            <option>Chad</option><option>Chile</option><option>China</option>
+            <option>Colombia</option><option>Comoros</option><option>Congo</option>
+            <option>Costa Rica</option><option>Croatia</option><option>Cuba</option>
+            <option>Cyprus</option><option>Czech Republic</option><option>Denmark</option>
+            <option>Djibouti</option><option>Dominica</option><option>Dominican Republic</option>
+            <option>Ecuador</option><option>Egypt</option><option>El Salvador</option>
+            <option>Equatorial Guinea</option><option>Eritrea</option><option>Estonia</option>
+            <option>Eswatini</option><option>Ethiopia</option><option>Fiji</option>
+            <option>Finland</option><option>France</option><option>Gabon</option>
+            <option>Gambia</option><option>Georgia</option><option>Germany</option>
+            <option>Ghana</option><option>Greece</option><option>Grenada</option>
+            <option>Guatemala</option><option>Guinea</option><option>Guinea-Bissau</option>
+            <option>Guyana</option><option>Haiti</option><option>Honduras</option>
+            <option>Hungary</option><option>Iceland</option><option>India</option>
+            <option>Indonesia</option><option>Iran</option><option>Iraq</option>
+            <option>Ireland</option><option>Israel</option><option>Italy</option>
+            <option>Jamaica</option><option>Japan</option><option>Jordan</option>
+            <option>Kazakhstan</option><option>Kenya</option><option>Kiribati</option>
+            <option>Kuwait</option><option>Kyrgyzstan</option><option>Laos</option>
+            <option>Latvia</option><option>Lebanon</option><option>Lesotho</option>
+            <option>Liberia</option><option>Libya</option><option>Liechtenstein</option>
+            <option>Lithuania</option><option>Luxembourg</option><option>Madagascar</option>
+            <option>Malawi</option><option>Malaysia</option><option>Maldives</option>
+            <option>Mali</option><option>Malta</option><option>Marshall Islands</option>
+            <option>Mauritania</option><option>Mauritius</option><option>Mexico</option>
+            <option>Micronesia</option><option>Moldova</option><option>Monaco</option>
+            <option>Mongolia</option><option>Montenegro</option><option>Morocco</option>
+            <option>Mozambique</option><option>Myanmar</option><option>Namibia</option>
+            <option>Nauru</option><option>Nepal</option><option>Netherlands</option>
+            <option>New Zealand</option><option>Nicaragua</option><option>Niger</option>
+            <option>Nigeria</option><option>North Korea</option><option>North Macedonia</option>
+            <option>Norway</option><option>Oman</option><option>Pakistan</option>
+            <option>Palau</option><option>Palestine</option><option>Panama</option>
+            <option>Papua New Guinea</option><option>Paraguay</option><option>Peru</option>
+            <option>Philippines</option><option>Poland</option><option>Portugal</option>
+            <option>Qatar</option><option>Romania</option><option>Russia</option>
+            <option>Rwanda</option><option>Saint Kitts and Nevis</option><option>Saint Lucia</option>
+            <option>Saint Vincent and the Grenadines</option><option>Samoa</option><option>San Marino</option>
+            <option>Sao Tome and Principe</option><option>Saudi Arabia</option><option>Senegal</option>
+            <option>Serbia</option><option>Seychelles</option><option>Sierra Leone</option>
+            <option>Singapore</option><option>Slovakia</option><option>Slovenia</option>
+            <option>Solomon Islands</option><option>Somalia</option><option>South Africa</option>
+            <option>South Korea</option><option>South Sudan</option><option>Spain</option>
+            <option>Sri Lanka</option><option>Sudan</option><option>Suriname</option>
+            <option>Sweden</option><option>Switzerland</option><option>Syria</option>
+            <option>Taiwan</option><option>Tajikistan</option><option>Tanzania</option>
+            <option>Thailand</option><option>Timor-Leste</option><option>Togo</option>
+            <option>Tonga</option><option>Trinidad and Tobago</option><option>Tunisia</option>
+            <option>Turkey</option><option>Turkmenistan</option><option>Tuvalu</option>
+            <option>Uganda</option><option>Ukraine</option><option>United Arab Emirates</option>
+            <option>United Kingdom</option><option>United States</option><option>Uruguay</option>
+            <option>Uzbekistan</option><option>Vanuatu</option><option>Vatican City</option>
+            <option>Venezuela</option><option>Vietnam</option><option>Yemen</option>
+            <option>Zambia</option><option>Zimbabwe</option>
+          </datalist>
+        </div>
+
+        <div class="form-row">
+          <label for="bookingChannel">Booking Channel</label>
+          <select id="bookingChannel" name="bookingChannel">
+            <option value="">How did you make your booking?</option>
+            <option value="Walk-in">Walk-in</option>
+            <option value="Website">Website</option>
+            <option value="LINE">LINE</option>
+            <option value="Instagram">Instagram</option>
+            <option value="Facebook">Facebook</option>
+            <option value="Hotel Concierge">Hotel Concierge</option>
+            <option value="Phone">Phone</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row guest-toggle-row">
+        <label class="guest-toggle" for="continueAsGuest">
+          <input type="checkbox" id="continueAsGuest" />
+          <span>Continue as a guest — skip optional details</span>
+        </label>
+      </div>
+
       <div class="form-row">
         <label for="visitDate">Date</label>
         <input type="date" id="visitDate" name="date" />
@@ -366,6 +528,11 @@
       </p>
       <div class="conditions-grid" id="conditionsGrid">
         <!-- Populated by JS -->
+      </div>
+      <div class="none-above-row">
+        <label class="condition-item" for="condNone">
+          <input type="checkbox" id="condNone" />None of the above
+        </label>
       </div>
     </div>
 
@@ -454,6 +621,33 @@
     label.htmlFor = id;
     label.innerHTML = `<input type="checkbox" id="${id}" name="conditions" value="${cond}" />${cond}`;
     grid.appendChild(label);
+  });
+
+  /* ── Continue as a guest toggle ── */
+  document.getElementById('continueAsGuest').addEventListener('change', function() {
+    const opt = document.getElementById('optionalFields');
+    if (this.checked) {
+      opt.classList.add('hidden');
+      document.getElementById('guestEmail').value = '';
+      document.getElementById('guestAge').value = '';
+      document.getElementById('guestCountry').value = '';
+      document.getElementById('bookingChannel').value = '';
+    } else {
+      opt.classList.remove('hidden');
+    }
+  });
+
+  /* ── None of the above toggle ── */
+  const condNone = document.getElementById('condNone');
+  condNone.addEventListener('change', function() {
+    if (this.checked) {
+      document.querySelectorAll('input[name="conditions"]').forEach(cb => cb.checked = false);
+    }
+  });
+  document.querySelectorAll('input[name="conditions"]').forEach(cb => {
+    cb.addEventListener('change', function() {
+      if (this.checked) condNone.checked = false;
+    });
   });
 
   /* ── Pressure toggle ── */
@@ -628,6 +822,9 @@
     const payload = {
       name: nameVal,
       email: emailVal,
+      age: document.getElementById('guestAge').value.trim(),
+      country: document.getElementById('guestCountry').value,
+      bookingChannel: document.getElementById('bookingChannel').value,
       date: dateInput.value,
       conditions,
       pressure: selectedPressure,
