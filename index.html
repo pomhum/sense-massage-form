@@ -200,20 +200,29 @@
     }
     .pressure-btn.error-group { border-color: #e05353 !important; }
 
-    /* ── Disclaimer ── */
-    .disclaimer-box {
-      background: var(--bg);
-      border: 1px solid var(--border);
+    /* ── Consent checkboxes ── */
+    .consent-list { display: flex; flex-direction: column; gap: 12px; }
+    .consent-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      cursor: pointer;
+      color: var(--text);
+      padding: 10px 12px;
       border-radius: 7px;
-      padding: 14px 16px;
-      font-size: 0.82rem;
-      line-height: 1.6;
-      color: var(--muted);
-      max-height: 160px;
-      overflow-y: auto;
+      transition: background 0.1s;
+      user-select: none;
     }
-    .disclaimer-box p { margin-bottom: 8px; }
-    .disclaimer-box p:last-child { margin-bottom: 0; }
+    .consent-item:hover { background: var(--green-light); }
+    .consent-item input[type="checkbox"] {
+      width: 17px; height: 17px;
+      accent-color: var(--green);
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
 
     /* ── Signature pad ── */
     .sig-wrapper {
@@ -328,6 +337,8 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    label .opt { font-weight: 400; color: var(--muted); font-size: 0.78rem; margin-left: 3px; }
+
     /* ── Guest toggle ── */
     .guest-toggle-row { margin-top: 4px; }
     .guest-toggle {
@@ -351,13 +362,29 @@
       cursor: pointer;
       flex-shrink: 0;
     }
-    #optionalFields {
+    #guestOptional {
       transition: opacity 0.2s;
     }
-    #optionalFields.hidden {
+    #guestOptional.hidden {
       opacity: 0.35;
       pointer-events: none;
     }
+
+    /* ── Form note ── */
+    .form-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 10px;
+      padding: 10px 13px;
+      background: var(--green-light);
+      border-left: 3px solid var(--green);
+      border-radius: 0 7px 7px 0;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .form-note svg { flex-shrink: 0; margin-top: 1px; }
 
     /* ── Responsive ── */
     @media (max-width: 480px) {
@@ -400,28 +427,66 @@
     <!-- 1. Guest Info -->
     <div class="card">
       <div class="card-title">Guest Information</div>
-
       <div class="form-row">
         <label for="guestName">Full Name <span class="req">*</span></label>
         <input type="text" id="guestName" name="name" placeholder="Enter your full name" autocomplete="name" />
         <div class="field-error" id="nameError">Please enter your name.</div>
       </div>
-
-      <div class="form-row">
-        <label for="guestEmail">Email Address</label>
-        <input type="email" id="guestEmail" name="email" placeholder="your@email.com" autocomplete="email" />
-        <div class="field-error" id="emailError">Please enter a valid email address.</div>
+      <div class="form-row guest-toggle-row">
+        <label class="guest-toggle" for="continueAsGuest">
+          <input type="checkbox" id="continueAsGuest" />
+          <span>Continue as a guest</span>
+        </label>
       </div>
-
-      <div id="optionalFields">
+      <div id="guestOptional">
         <div class="form-row">
-          <label for="guestAge">Age</label>
-          <input type="number" id="guestAge" name="age" placeholder="Your age" min="1" max="120" />
+          <label for="guestBranch">Branch</label>
+          <select id="guestBranch" name="branch">
+            <option value="">Select branch</option>
+            <option value="SENSE Onsen Suandok Wellness and Spa">SENSE Onsen Suandok Wellness &amp; Spa</option>
+            <option value="Sense Massage Night Bazaar">Sense Massage Night Bazaar</option>
+            <option value="Sense Massage Somphet">Sense Massage Somphet</option>
+            <option value="Sense Massage and Spa Nimman">Sense Massage &amp; Spa Nimman</option>
+            <option value="Sense Garden Massage and Spa">Sense Garden Massage &amp; Spa</option>
+            <option value="Sense Hot Spring">Sense Hot Spring</option>
+            <option value="Sense Dhara Dhevi Wellness Club">Sense Dhara Dhevi Wellness Club</option>
+            <option value="Sense Rainforest Retreat and Villas">Sense Rainforest Retreat &amp; Villas</option>
+            <option value="Sense Express Massage at PTT Hangdong">Sense Express Massage at PTT Hangdong</option>
+          </select>
         </div>
-
         <div class="form-row">
-          <label for="guestCountry">Country</label>
-          <input type="text" id="guestCountry" name="country" placeholder="Type to search country…" autocomplete="off" list="countryList" />
+          <label for="bookingSource">Booking Source</label>
+          <select id="bookingSource" name="bookingSource">
+            <option value="">How did you make your booking?</option>
+            <option value="Walk-in">Walk-in</option>
+            <option value="Website">Website</option>
+            <option value="LINE">LINE</option>
+            <option value="Instagram">Instagram</option>
+            <option value="Facebook">Facebook</option>
+            <option value="Hotel Concierge">Hotel Concierge</option>
+            <option value="Phone">Phone</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="guestEmail">Email Address <span class="opt">(optional)</span></label>
+          <input type="email" id="guestEmail" name="email" placeholder="your@email.com" autocomplete="email" />
+          <div class="field-error" id="emailError">Please enter a valid email address.</div>
+        </div>
+        <div class="form-row">
+          <label for="guestAge">Age Range <span class="opt">(optional)</span></label>
+          <select id="guestAge" name="age">
+            <option value="">Select age range</option>
+            <option value="Under 18">Under 18</option>
+            <option value="18-30">18-30</option>
+            <option value="31-45">31-45</option>
+            <option value="46-60">46-60</option>
+            <option value="60+">60+</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="guestCountry">Country <span class="opt">(optional)</span></label>
+          <input type="text" id="guestCountry" name="country" placeholder="Type to search country..." autocomplete="off" list="countryList" />
           <datalist id="countryList">
             <option>Afghanistan</option><option>Albania</option><option>Algeria</option>
             <option>Andorra</option><option>Angola</option><option>Antigua and Barbuda</option>
@@ -490,30 +555,7 @@
             <option>Zambia</option><option>Zimbabwe</option>
           </datalist>
         </div>
-
-        <div class="form-row">
-          <label for="bookingChannel">Booking Channel</label>
-          <select id="bookingChannel" name="bookingChannel">
-            <option value="">How did you make your booking?</option>
-            <option value="Walk-in">Walk-in</option>
-            <option value="Website">Website</option>
-            <option value="LINE">LINE</option>
-            <option value="Instagram">Instagram</option>
-            <option value="Facebook">Facebook</option>
-            <option value="Hotel Concierge">Hotel Concierge</option>
-            <option value="Phone">Phone</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
       </div>
-
-      <div class="form-row guest-toggle-row">
-        <label class="guest-toggle" for="continueAsGuest">
-          <input type="checkbox" id="continueAsGuest" />
-          <span>Continue as a guest — skip optional details</span>
-        </label>
-      </div>
-
       <div class="form-row">
         <label for="visitDate">Date</label>
         <input type="date" id="visitDate" name="date" />
@@ -536,25 +578,81 @@
       </div>
     </div>
 
-    <!-- 3. Massage Pressure -->
+    <!-- 3. Focus Area -->
+    <div class="card">
+      <div class="card-title">Focus Area</div>
+      <p style="font-size:0.82rem;color:var(--muted);margin-bottom:14px;">What would you like us to focus on today? (select all that apply)</p>
+      <div class="conditions-grid">
+        <label class="condition-item" for="focus0"><input type="checkbox" id="focus0" name="focusAreas" value="Neck and Shoulders" />Neck &amp; Shoulders</label>
+        <label class="condition-item" for="focus1"><input type="checkbox" id="focus1" name="focusAreas" value="Back Pain" />Back Pain</label>
+        <label class="condition-item" for="focus2"><input type="checkbox" id="focus2" name="focusAreas" value="Legs and Feet" />Legs &amp; Feet</label>
+        <label class="condition-item" for="focus3"><input type="checkbox" id="focus3" name="focusAreas" value="Stress Relief" />Stress Relief</label>
+        <label class="condition-item" for="focus4"><input type="checkbox" id="focus4" name="focusAreas" value="Better Sleep" />Better Sleep</label>
+        <label class="condition-item" for="focus5"><input type="checkbox" id="focus5" name="focusAreas" value="Jet Lag Recovery" />Jet Lag Recovery</label>
+        <label class="condition-item" for="focus6"><input type="checkbox" id="focus6" name="focusAreas" value="Office Syndrome" />Office Syndrome</label>
+        <label class="condition-item" for="focus7"><input type="checkbox" id="focus7" name="focusAreas" value="Relaxation" />Relaxation</label>
+        <label class="condition-item" for="focus8"><input type="checkbox" id="focus8" name="focusAreas" value="Muscle Recovery" />Muscle Recovery</label>
+        <label class="condition-item" for="focus9"><input type="checkbox" id="focus9" name="focusAreas" value="Other" />Other</label>
+      </div>
+    </div>
+
+    <!-- 4. Pain / Sensitivity Area -->
+    <div class="card">
+      <div class="card-title">Pain / Sensitivity Area</div>
+      <p style="font-size:0.82rem;color:var(--muted);margin-bottom:14px;">Which areas should we avoid or be extra careful with?</p>
+      <div class="conditions-grid">
+        <label class="condition-item" for="pain0"><input type="checkbox" id="pain0" name="painAreas" value="Neck" />Neck</label>
+        <label class="condition-item" for="pain1"><input type="checkbox" id="pain1" name="painAreas" value="Lower Back" />Lower Back</label>
+        <label class="condition-item" for="pain2"><input type="checkbox" id="pain2" name="painAreas" value="Knee" />Knee</label>
+        <label class="condition-item" for="pain3"><input type="checkbox" id="pain3" name="painAreas" value="Shoulder" />Shoulder</label>
+        <label class="condition-item" for="pain4"><input type="checkbox" id="pain4" name="painAreas" value="Foot" />Foot</label>
+        <label class="condition-item" for="pain5"><input type="checkbox" id="pain5" name="painAreas" value="Pregnancy" />Pregnancy</label>
+        <label class="condition-item" for="pain6"><input type="checkbox" id="pain6" name="painAreas" value="Recent Injury" />Recent Injury</label>
+      </div>
+    </div>
+
+    <!-- 5. Massage Pressure -->
     <div class="card">
       <div class="card-title">Preferred Massage Pressure <span class="req">*</span></div>
       <div class="pressure-group" id="pressureGroup">
         <button type="button" class="pressure-btn" data-value="Light">🌿 Light</button>
         <button type="button" class="pressure-btn" data-value="Medium">🌿🌿 Medium</button>
-        <button type="button" class="pressure-btn" data-value="Firm">🌿🌿🌿 Firm</button>
+        <button type="button" class="pressure-btn" data-value="Firm">🌿🌿🌿 Strong</button>
       </div>
       <div class="field-error" id="pressureError">Please select a massage pressure.</div>
+      <div class="form-note">
+        <svg width="15" height="15" viewBox="0 0 20 20" fill="none">
+          <circle cx="10" cy="10" r="9" stroke="#917c64" stroke-width="1.5"/>
+          <path d="M10 9v5M10 6.5v.5" stroke="#917c64" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span>If you select <strong>Firm</strong>, some treatments may not be suitable — e.g. Oil Massage. Our therapist will advise you accordingly.</span>
+      </div>
     </div>
 
-    <!-- 4. Disclaimer -->
+    <!-- 6. Consent -->
     <div class="card">
-      <div class="card-title">Disclaimer &amp; Consent</div>
-      <div class="disclaimer-box" tabindex="0">
-        <p>I, the undersigned, acknowledge that I have voluntarily chosen to receive massage therapy services at Sense Massage. I understand that massage therapy is not a substitute for medical treatment or diagnosis.</p>
-        <p>I confirm that the information I have provided on this form is accurate and complete to the best of my knowledge. I agree to inform my therapist of any changes to my health status prior to each session.</p>
-        <p>I understand that if I experience any pain or discomfort during the session, I will immediately inform my therapist so that the treatment can be adjusted or discontinued. I release Sense Massage and its therapists from all liability for any injury, loss, or damage arising from my failure to disclose relevant medical information.</p>
-        <p>By signing below, I consent to receive massage therapy services and confirm I have read and understood this disclaimer.</p>
+      <div class="card-title">Consent <span class="req">*</span></div>
+      <div class="consent-list">
+        <label class="consent-item" for="consent1">
+          <input type="checkbox" id="consent1" />
+          I confirm that the information provided is accurate and complete.
+        </label>
+        <label class="consent-item" for="consent2">
+          <input type="checkbox" id="consent2" />
+          I understand that massage therapy is not a substitute for medical treatment.
+        </label>
+        <label class="consent-item" for="consent3">
+          <input type="checkbox" id="consent3" />
+          I will inform my therapist immediately if I experience any pain or discomfort.
+        </label>
+      </div>
+      <div class="field-error" id="consentError">Please agree to all statements to continue.</div>
+      <div class="form-note">
+        <svg width="15" height="15" viewBox="0 0 20 20" fill="none">
+          <circle cx="10" cy="10" r="9" stroke="#917c64" stroke-width="1.5"/>
+          <path d="M10 9v5M10 6.5v.5" stroke="#917c64" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span>If within the first <strong>15 minutes</strong> you are not satisfied, please let us know — we are happy to adjust or offer a refund.</span>
       </div>
     </div>
 
@@ -625,15 +723,16 @@
 
   /* ── Continue as a guest toggle ── */
   document.getElementById('continueAsGuest').addEventListener('change', function() {
-    const opt = document.getElementById('optionalFields');
+    const go = document.getElementById('guestOptional');
     if (this.checked) {
-      opt.classList.add('hidden');
+      go.classList.add('hidden');
+      document.getElementById('guestBranch').value = '';
+      document.getElementById('bookingSource').value = '';
       document.getElementById('guestEmail').value = '';
       document.getElementById('guestAge').value = '';
       document.getElementById('guestCountry').value = '';
-      document.getElementById('bookingChannel').value = '';
     } else {
-      opt.classList.remove('hidden');
+      go.classList.remove('hidden');
     }
   });
 
@@ -795,6 +894,15 @@
       valid = false;
     }
 
+    // Consent checkboxes
+    const allConsented = ['consent1','consent2','consent3'].every(id => document.getElementById(id).checked);
+    if (!allConsented) {
+      showError('consentError');
+      valid = false;
+    } else {
+      clearError('consentError');
+    }
+
     // Signature
     if (isCanvasBlank()) {
       sigWrapper.classList.add('error');
@@ -819,14 +927,19 @@
     // Signature as base64
     const signatureBase64 = canvas.toDataURL('image/png');
 
+    const focusAreas = Array.from(form.querySelectorAll('input[name="focusAreas"]:checked')).map(cb => cb.value);
+    const painAreas  = Array.from(form.querySelectorAll('input[name="painAreas"]:checked')).map(cb => cb.value);
     const payload = {
       name: nameVal,
       email: emailVal,
-      age: document.getElementById('guestAge').value.trim(),
-      country: document.getElementById('guestCountry').value,
-      bookingChannel: document.getElementById('bookingChannel').value,
+      age: document.getElementById('guestAge').value,
+      country: document.getElementById('guestCountry').value.trim(),
+      branch: document.getElementById('guestBranch').value.trim(),
+      bookingSource: document.getElementById('bookingSource').value,
       date: dateInput.value,
       conditions,
+      focusAreas,
+      painAreas,
       pressure: selectedPressure,
       signature: signatureBase64,
       timestamp: new Date().toISOString(),
@@ -852,6 +965,13 @@
       dateInput.value = today;
       selectedPressure = '';
       document.querySelectorAll('.pressure-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('guestBranch').value = '';
+      document.getElementById('bookingSource').value = '';
+      document.getElementById('continueAsGuest').checked = false;
+      document.getElementById('guestOptional').classList.remove('hidden');
+      document.querySelectorAll('input[name="focusAreas"]').forEach(cb => cb.checked = false);
+      document.querySelectorAll('input[name="painAreas"]').forEach(cb => cb.checked = false);
+      ['consent1','consent2','consent3'].forEach(id => document.getElementById(id).checked = false);
       const dpr = window.devicePixelRatio || 1;
       ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
       hasSig = false;
